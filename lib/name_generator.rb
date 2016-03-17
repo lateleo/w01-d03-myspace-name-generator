@@ -3,53 +3,36 @@
 #require 'pry'
 
 
-# Fills valid_chars and then checks
-# `arr` for any invalid characters.
+# Returns `true` if elements in `arr` are all letters,
+# numbers, or spaces, and `false` otherwise.
 def validate_chars(arr)
-  valid_chars = [" "]
-  ("a".."z").each {|i| valid_chars.push(i)}
-  ("0".."9").each {|i| valid_chars.push(i)}
-  arr.each {|char| return false if !valid_chars.include?(char)}
+  arr.each {|char| return false if
+    !(("a".."z").cover?(char) ||
+      ("0".."9").cover?(char) ||
+       [" ","_"].include?(char))}
   true
 end
-
 # ---------------------------------------------------
-# Modifies the `char` if necessary,
-# and then pushes it.
-def char_push(count, char, arr)
-  arr.push(char.upcase) if (char != "_") && (count % 2 == 0)
-  arr.push(char) if !((char != "_") && (count % 2 == 0))
+# Returns an upcased `char` if it isn't an underscore
+# and `counter` is even, and an unchanged `char` otherwise.
+def char_modifier(char, counter)
+  return char.upcase if (char != "_") && (counter % 2 == 0)
+  char
 end
 
-# Determines what the new value
-# for `count` should be.
-def new_count (count, char)
-  return count.next if char != "_"
-  0
+# Returns `counter[0] + 1` if `char` isn't an underscore,
+# and `1` otherwise.
+def new_counter(counter, char)
+  return counter.next if char != "_"
+  1
 end
 
-# Uses char_push and new_count to
-# populate the `target` with elements
-# from the `source` in varying letter case.
-def populate_studly(source,target)
-  count = 0
-  source.each do |char|
-    char_push(count, char, target)
-    count = new_count(count, char)
-  end
-end
-
-def populate_studly(source,target)
-  count = 0
+# Generates a new array with elements mapped from `source`
+# and alternatively capitalized.
+def populate_studly(source, counter)
   source.map do |char|
-    if (char != "_") && (count % 2 == 0)
-      count = count.next
-      char.upcase
-    elsif char == "_" || count % 2 != 0
-      count = count.next if char != "_"
-      count = 0 if char == "_"
-      char
-    end
+    counter = new_counter(counter, char)
+    char_modifier(char, counter)
   end
 end
 # ------------------------------------------------
@@ -57,20 +40,9 @@ end
 # Creates a MySpace username based on `name`.
 def name_generator(name)
   lowercase = name.downcase.chars
-  return "Error: please only use letters, numbers or spaces." unless validate_chars(lowercase)
+  return "Error: please only use letters, numbers, spaces or underscores." unless validate_chars(lowercase)
   lowercase.each_index {|index| lowercase[index] = "_" if lowercase[index] == " "}
-  count = 0
-  studly = lowercase.map do |char|
-    if (char != "_") && (count % 2 == 0)
-      count = count.next
-      char.upcase
-    elsif char == "_" || count % 2 != 0
-      count = count.next if char != "_"
-      count = 0 if char == "_"
-      char
-    end
-  end
-  studly.join.prepend("xX_").concat("_Xx")
+  studly = populate_studly(lowercase, 1).join.prepend("xX_").concat("_Xx")
 end
 
 #binding.pry
