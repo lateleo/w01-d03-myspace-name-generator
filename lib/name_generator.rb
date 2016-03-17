@@ -3,8 +3,8 @@
 
 require 'pry'
 def add_letters(arr)
-  alpha = "A"
-  while !arr.include?("Z")
+  alpha = "a"
+  while !arr.include?("z")
     arr.push(alpha)
     alpha = alpha.next
   end
@@ -20,39 +20,34 @@ end
 
 def populate_valid_chars(arr)
   add_letters(arr)
-  #add_numbers(arr)
+  add_numbers(arr)
 end
 
-valid_chars = [" "]
-populate_valid_chars(valid_chars)
-
 def validate_chars(arr)
+  valid_chars = [" "]
   populate_valid_chars(valid_chars)
-  var1 = nil
-  arr.each do |char1|
-    valid_chars.each do |char2|
-      if char1 == char2
-        var1 = char2
-      end
+  arr.each do |char|
+    if !valid_chars.include?(char)
+      return false
     end
   end
-  var1
+  true
 end
 
 def letter_push(count, char, arr)
-  arr.push(char.downcase!) if count % 2 == 0
+  arr.push(char.upcase) if count % 2 == 0
   arr.push(char) if count % 2 != 0
 end
 
 def populate_studly(arr1,arr2)
-  count = 1
+  count = 0
   arr1.each do |char|
     if char != "_"
       letter_push(count, char, arr2)
       count += 1
     else
       arr2.push(char)
-      count = 1
+      count = 0
     end
   end
 end
@@ -66,10 +61,11 @@ def replace_spaces(arr)
 end
 
 def name_generator(name)
-  all_caps = name.upcase.chars
-  replace_spaces(all_caps)
+  lowercase = name.downcase.chars
+  return "Error: please only use letters, numbers or spaces." unless validate_chars(lowercase)
+  replace_spaces(lowercase)
   studly = []
-  populate_studly(all_caps, studly)
+  populate_studly(lowercase, studly)
   studly.join.prepend("xX_").concat("_Xx")
 end
 
