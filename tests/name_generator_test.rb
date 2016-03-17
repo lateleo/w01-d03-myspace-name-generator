@@ -1,4 +1,5 @@
 require_relative '../lib/name_generator.rb'
+require_relative "test_helper.rb"
 
 # Define whatever methods you need first
 def affirm_equals(actual, expected)
