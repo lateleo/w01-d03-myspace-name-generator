@@ -6,7 +6,7 @@ class NameGeneratorTest < Minitest::Test
 
 # add first test soon
   def test_valid_chars
-    result = validate_chars(["b","c","d","x","y"," ","1","2","7","8"])
+    result = validate_chars(["b","c","d","x","y","_","1","2","7","8"])
     assert(result, "Characters should be valid")
   end
 
@@ -15,36 +15,37 @@ class NameGeneratorTest < Minitest::Test
     refute(result, "'@' is an invalid character")
   end
 
-  def test_char_mod_upcase
-    result = char_modifier("a", 0)
-    assert_equal("A", result, "Should be capital A")
-  end
-
-  def test_char_mod_no_upcase
-    result = char_modifier("a", 1)
-    assert_equal("a", result, "Should be lowercase a")
-  end
-
-  def test_char_mod_number
-    upcase = char_modifier("5", 0)
-    no_upcase = char_modifier("5", 1)
-    assert_equal(upcase, no_upcase, "Should not change")
-  end
-
-  def test_new_counter_a
-    result = new_counter(0, "a")
-    assert_equal(1, result, "Should be 1")
-  end
-
-  def test_new_counter_5
-    result = new_counter(0, "5")
-    assert_equal(1, result, "Should be 1")
-  end
-
-  def test_new_counter_underscore
-    result = new_counter(5, "_")
-    assert_equal(1, result, "Should be 0")
-  end
+# (Expand to see old tests)
+#  def test_char_mod_upcase
+#    result = char_modifier("a", 0)
+#    assert_equal("A", result, "Should be capital A")
+#  end
+#
+#  def test_char_mod_no_upcase
+#    result = char_modifier("a", 1)
+#    assert_equal("a", result, "Should be lowercase a")
+#  end
+#
+#  def test_char_mod_number
+#    upcase = char_modifier("5", 0)
+#    no_upcase = char_modifier("5", 1)
+#    assert_equal(upcase, no_upcase, "Should not change")
+#  end
+#
+#  def test_new_counter_a
+#    result = new_counter(0, "a")
+#    assert_equal(1, result, "Should be 1")
+#  end
+#
+#  def test_new_counter_5
+#    result = new_counter(0, "5")
+#    assert_equal(1, result, "Should be 1")
+#  end
+#
+#  def test_new_counter_underscore
+#    result = new_counter(5, "_")
+#    assert_equal(1, result, "Should be 0")
+#  end
 
   def test_Art_Burtch
     result = name_generator("Art Burtch")
