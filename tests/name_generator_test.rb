@@ -21,7 +21,7 @@ class NameGeneratorTest < Minitest::Test
 
   def test_symbols
     result = name_generator("@r+#ur 13ur+c#!")
-    assert_equal("Error: please only use alphanumerics, spaces or underscores.",
+    assert_equal("Please only use alphanumerics, spaces or underscores.",
     result, "Should have recieved error message")
   end
 end
